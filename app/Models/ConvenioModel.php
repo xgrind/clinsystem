@@ -12,19 +12,36 @@ class ConvenioModel extends Model
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = \App\Entities\ConvenioEntity::class;
-    protected $useSoftDeletes   = false;
+    protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['nome', 'ans', 'sigla', 'ativo'];
 
     // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [];
+    protected $validationRules      = [
+        'nome' => [
+            'label' => 'Nome',
+            'rules' => 'required|min_length[3]|max_length[100]',
+        ],
+        'ans' => [
+            'label' => 'ANS',
+            'rules' => 'max_length[100]',
+        ],
+        'sigla' => [
+            'label' => 'Sigla',
+            'rules' => 'max_length[100]',
+        ],
+        'ativo' => [
+            'label' => 'Ativo',
+            'rules' => 'required|in_list[s,n]'
+        ]
+    ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
