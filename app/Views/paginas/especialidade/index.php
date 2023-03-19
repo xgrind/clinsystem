@@ -5,7 +5,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Lista de Convênios</h1>
+            <h1 class="page-header">Lista de Especialidades</h1>
 
             <?= get_alert() ?>
             
@@ -24,26 +24,24 @@
                             <thead>
                                 <tr>
                                     <th>Nome</th>
-                                    <th>ANS</th>
-                                    <th>Sigla</th>
+                                    <th>Descrição</th>                                    
                                     <th>Ativo</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($convenios as $convenio) : ?>
-                                    <tr>
-                                        <td><?= $convenio->nome ?></td>
-                                        <td><?= $convenio->ans ?></td>
-                                        <td><?= $convenio->sigla ?></td>
-                                        <td><?= $convenio->ativo === 's' ? 'Sim' : 'Não' ?></td>
+                                <?php foreach ($especialidades as $especialidade) : ?>
+                                    <tr>                                        
+                                        <td><?= $especialidade->nome ?></td>
+                                        <td><?= $especialidade->descricao ?></td>
+                                        <td><?= $especialidade->ativo === 's' ? 'Sim' : 'Não' ?></td>
                                         <td>
-                                            <?= anchor("convenio/$convenio->id/editar", '<i class="fa fa-edit"></i>', [
+                                            <?= anchor("especialidade/$especialidade->id/editar", '<i class="fa fa-edit"></i>', [
                                                 'title' => 'Editar'
                                             ]) ?>
-                                            <?= anchor("convenio/$convenio->id/excluir", '<i class="fa fa-trash"></i>', [
+                                            <?= anchor("especialidade/$especialidade->id/excluir", '<i class="fa fa-trash"></i>', [
                                                 'title' => 'Excluir',
-                                                'onClick' => "return window.confirm('Deseja excluir $convenio->nome?')"
+                                                'onClick' => "return window.confirm('Deseja excluir $especialidade->nome?')"
                                             ]) ?>
                                         </td>
                                     </tr>

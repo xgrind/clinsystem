@@ -3,6 +3,7 @@
 namespace Config;
 
 use App\Controllers\ConvenioController;
+use App\Controllers\EspecialidadeController;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
@@ -43,6 +44,17 @@ $routes->group('convenio', function($routes) {
     $routes->match(['post', 'get'], '/', [ConvenioController::class, 'novo']);
     $routes->match(['post', 'get'], '(:num)/editar', [ConvenioController::class, 'editar']);
     $routes->get('(:num)/excluir', [ConvenioController::class, 'excluir']);
+});
+
+// Especialidade
+$routes->group('especialidades', function($routes) {
+    $routes->get('/', [EspecialidadeController::class, 'index']);
+});
+
+$routes->group('especialidade', function($routes) {
+    $routes->match(['post', 'get'], '/', [EspecialidadeController::class, 'novo']);
+    $routes->match(['post', 'get'], '(:num)/editar', [EspecialidadeController::class, 'editar']);
+    $routes->get('(:num)/excluir', [EspecialidadeController::class, 'excluir']);
 });
 
 /*
