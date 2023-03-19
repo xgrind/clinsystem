@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use App\Controllers\ConvenioController;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -30,6 +32,10 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+
+$routes->group('convenios', function($routes) {
+    $routes->get('/', [ConvenioController::class, 'index']);
+});
 
 /*
  * --------------------------------------------------------------------
