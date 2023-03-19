@@ -1,25 +1,19 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
+        <meta name="description" content="Sistema para gerenciamento de clínicas médicas">
         <meta name="author" content="Michael Martins">
 
-        <title><?= $titulo ?></title>
+        <title><?= $titulo ?>/title>
 
         <!-- Bootstrap Core CSS -->        
         <?= link_tag('assets/css/bootstrap.min.css') ?>
 
         <!-- MetisMenu CSS -->        
         <?= link_tag('assets/css/metisMenu.min.css') ?>
-
-        <!-- DataTables CSS -->        
-        <?= link_tag('assets/css/dataTables/dataTables.bootstrap.css') ?>
-
-        <!-- DataTables Responsive CSS -->        
-        <?= link_tag('assets/css/dataTables/dataTables.responsive.css') ?>
 
         <!-- Custom CSS -->        
         <?= link_tag('assets/css/startmin.css') ?>
@@ -43,6 +37,8 @@
 
             <?= $this->renderSection('conteudo') ?>
 
+            
+
         </div>
         <!-- /#wrapper -->
 
@@ -55,21 +51,8 @@
         <!-- Metis Menu Plugin JavaScript -->        
         <?= script_tag('assets/js/metisMenu.min.js') ?>
 
-        <!-- DataTables JavaScript -->                
-        <?= script_tag('assets/js/dataTables/jquery.dataTables.min.js') ?>
-        <?= script_tag('assets/js/dataTables/dataTables.bootstrap.min.js') ?>
-
         <!-- Custom Theme JavaScript -->        
         <?= script_tag('assets/js/startmin.js') ?>
-
-        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-        <script>
-            $(document).ready(function() {
-                $('.lista').DataTable({
-                        responsive: true
-                });
-            });
-        </script>
 
     </body>
 </html>

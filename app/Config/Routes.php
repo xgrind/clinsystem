@@ -33,8 +33,16 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+
+// Convênio
 $routes->group('convenios', function($routes) {
     $routes->get('/', [ConvenioController::class, 'index']);
+});
+
+$routes->group('convenio', function($routes) {
+    $routes->match(['post', 'get'], '/', [ConvenioController::class, 'novo']);
+    $routes->match(['post', 'get'], '(:num)/editar', [ConvenioController::class, 'editar']);
+    $routes->get('(:num)/excluir', [ConvenioController::class, 'excluir']);
 });
 
 /*

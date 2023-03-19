@@ -6,6 +6,8 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Lista de Convênios</h1>
+
+            <?= get_alert() ?>
             
         </div>
         <!-- /.col-lg-12 -->        
@@ -36,10 +38,10 @@
                                         <td><?= $convenio->sigla ?></td>
                                         <td><?= $convenio->ativo === 's' ? 'Sim' : 'Não' ?></td>
                                         <td>
-                                            <?= anchor("convenios/$convenio->id/editar", '<i class="fa fa-edit"></i>', [
+                                            <?= anchor("convenio/$convenio->id/editar", '<i class="fa fa-edit"></i>', [
                                                 'title' => 'Editar'
                                             ]) ?>
-                                            <?= anchor("convenios/$convenio->id/excluir", '<i class="fa fa-trash"></i>', [
+                                            <?= anchor("convenio/$convenio->id/excluir", '<i class="fa fa-trash"></i>', [
                                                 'title' => 'Excluir',
                                                 'onClick' => "return window.confirm('Deseja excluir $convenio->nome?')"
                                             ]) ?>
