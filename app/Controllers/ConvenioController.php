@@ -23,7 +23,7 @@ class ConvenioController extends BaseController
         $dados = [
             'titulo' => 'Lista de Convênios',
             'convenios' => $convenios
-        ];
+        ];        
 
         return view('paginas/convenio/index', $dados);
     }
