@@ -3,6 +3,7 @@
 namespace Config;
 
 use App\Controllers\ConvenioController;
+use App\Controllers\DicaController;
 use App\Controllers\EspecialidadeController;
 
 // Create a new instance of our RouteCollection class.
@@ -55,6 +56,18 @@ $routes->group('especialidade', function($routes) {
     $routes->match(['post', 'get'], '/', [EspecialidadeController::class, 'novo']);
     $routes->match(['post', 'get'], '(:num)/editar', [EspecialidadeController::class, 'editar']);
     $routes->get('(:num)/excluir', [EspecialidadeController::class, 'excluir']);
+});
+
+// Dica
+$routes->group('dicas', function($routes) {
+    $routes->get('/', [DicaController::class, 'index']);
+});
+
+$routes->group('dica', function($routes) {
+    $routes->match(['post', 'get'], '/', [DicaController::class, 'novo']);
+    $routes->match(['post', 'get'], '(:num)/editar', [DicaController::class, 'editar']);
+    $routes->get('(:num)/excluir', [DicaController::class, 'excluir']);
+    $routes->get('(:num)', [DicaController::class, 'visualizar']);
 });
 
 /*
