@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Entities\DicaEntity;
 use App\Models\DicaModel;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class DicaController extends BaseController
@@ -31,6 +32,28 @@ class DicaController extends BaseController
 
     }
 
+    // public function novo()
+    // {
+    //     $dados = [
+    //         'titulo' => 'Cadastro de Dica',
+    //         'dica' => new DicaEntity(),
+    //         'erros' => []
+    //     ];
+
+    //     if ($this->request->is('post')) {
+    //         $dica = new DicaEntity($this->request->getPost());
+
+    //         if ($this->dicaModel->save($dica)) {
+    //             return redirect('dicas')->with('sucesso', 'Dica cadastrada com sucesso');
+    //         }
+
+    //         $dados['erros'] = $this->dicaModel->errors();
+    //         $dados['dica'] = $dica;
+    //     }
+
+    //     return view('paginas/dica/novo', $dados);
+    // }
+
     public function novo()
     {
         $dados = [
@@ -39,15 +62,23 @@ class DicaController extends BaseController
             'erros' => []
         ];
 
-        if ($this->request->is('post')) {
-            $dica = new DicaEntity($this->request->getPost());
+        if ($this->request->is('post')) {            
+            $dica = new DicaEntity($this->request->getPost());                      
 
-            if ($this->dicaModel->save($dica)) {
-                return redirect('dicas')->with('sucesso', 'Dica cadastrada com sucesso');
+            if ($this->validate($this->getRegras())) {
+
+                $this->upload($dica);                               
+    
+                if ($this->dicaModel->save($dica)) {
+                    return redirect('dicas')->with('sucesso', 'Dica cadastrada com sucesso');
+                }       
+                
+                $dados['erros'] = $this->dicaModel->errors();
+                $dados['dica'] = $dica;
             }
 
-            $dados['erros'] = $this->dicaModel->errors();
-            $dados['dica'] = $dica;
+            $dados['erros'] = $this->validator->getErrors();
+            $dados['dica'] = $dica;          
         }
 
         return view('paginas/dica/novo', $dados);
@@ -55,6 +86,37 @@ class DicaController extends BaseController
 
     public function editar($id)
     {
+        $dica = $this->dicaModel->find($id);
+
+        if (is_null($dica)) {
+            throw PageNotFoundException::forPageNotFound('Dica não encontrada.');                    
+        }
+
+        $dados = [
+            'titulo' => 'Edição de Dica',
+            'dica' => $dica,
+            'erros' => []
+        ];
+
+        if ($this->request->is('post')) {
+            $dica->fill($this->request->getPost());
+
+            if ($this->validate($this->getRegras())) {
+                $this->upload($dica);
+
+                if ($dica->hasChanged()) {
+                    if ($this->dicaModel->save($dica)) {
+                        return redirect('dicas')->with('sucesso', 'Dica alterada com sucesso!');
+                    }
+
+                    $dados['erros'] = $this->dicaModel->errors();
+                }
+            }
+
+            $dados['erros'] = $this->validator->getErrors();           
+        }
+
+        return view('paginas/dica/editar', $dados);
 
     }
 
@@ -86,5 +148,38 @@ class DicaController extends BaseController
         ];
 
         return view('paginas/dica/visualizar', $dados);
+    }
+
+    /**
+     * Regras de validação do envio
+     *
+     * @return void
+     */
+    private function getRegras()
+    {
+        $regras = [
+            'foto' => [
+                'label' => 'Foto',
+                'rules' => [
+                    'is_image[foto]',
+                    'ext_in[foto,jpg,png,jpeg]'
+                ]
+            ],
+        ];
+
+        return $regras;
+    }
+
+    private function upload(DicaEntity $dica)
+    {
+        $foto = $this->request->getFile('foto');
+
+        if ($foto) {                  
+            if ($foto->isValid() && ! $foto->hasMoved()) {                    
+                $novoNome = $foto->getRandomName();
+                $foto->move(ROOTPATH . 'public/uploads', $novoNome);
+                $dica->foto = $novoNome;
+            }                            
+        }
     }
 }

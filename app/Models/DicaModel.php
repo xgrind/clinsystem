@@ -24,11 +24,7 @@ class DicaModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [
-        'foto' => [
-            'label' => 'Foto',
-            'rules' => 'max_length[255]',
-        ],
+    protected $validationRules      = [        
         'titulo' => [
             'label' => 'Título',
             'rules' => 'required|min_length[3]|max_length[255]',
