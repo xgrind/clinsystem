@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Sistema para gerenciamento de clínicas médicas">
-        <meta name="author" content="Michael Martins">
+<html lang="pt-br">
 
-        <title><?= $titulo ?>/title>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Sistema para gerenciamento de clínicas médicas">
+    <meta name="author" content="Michael Martins">
 
-        <!-- Bootstrap Core CSS -->        
+    <title><?= $titulo ?></title>
+
+        <!-- Bootstrap Core CSS -->
         <?= link_tag('assets/css/bootstrap.min.css') ?>
 
-        <!-- MetisMenu CSS -->        
+        <!-- MetisMenu CSS -->
         <?= link_tag('assets/css/metisMenu.min.css') ?>
 
-        <!-- Custom CSS -->        
+        <!-- Custom CSS -->
         <?= link_tag('assets/css/startmin.css') ?>
 
-        <!-- Custom Fonts -->        
+        <!-- Custom Fonts -->
         <?= link_tag('assets/css/font-awesome.min.css') ?>
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -27,32 +28,38 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-    </head>
-    <body>
+</head>
 
-        <div id="wrapper">
+<body>
 
-            <!-- Navigation -->
-            <?= $this->include('templates/navbar') ?>
+    <div id="wrapper">
 
-            <?= $this->renderSection('conteudo') ?>
+        <!-- Navigation -->
+        <?= $this->include('templates/navbar') ?>
 
-            
+        <?= $this->renderSection('conteudo') ?>
 
-        </div>
-        <!-- /#wrapper -->
 
-        <!-- jQuery -->        
-        <?= script_tag('assets/js/jquery.min.js') ?>
 
-        <!-- Bootstrap Core JavaScript -->        
-        <?= script_tag('assets/js/bootstrap.min.js') ?>
+    </div>
+    <!-- /#wrapper -->
 
-        <!-- Metis Menu Plugin JavaScript -->        
-        <?= script_tag('assets/js/metisMenu.min.js') ?>
+    <!-- jQuery -->
+    <?= script_tag('assets/js/jquery.min.js') ?>
 
-        <!-- Custom Theme JavaScript -->        
-        <?= script_tag('assets/js/startmin.js') ?>
+    <!-- Bootstrap Core JavaScript -->
+    <?= script_tag('assets/js/bootstrap.min.js') ?>
 
-    </body>
+    <!-- Metis Menu Plugin JavaScript -->
+    <?= script_tag('assets/js/metisMenu.min.js') ?>
+
+    <!-- Custom Theme JavaScript -->
+    <?= script_tag('assets/js/startmin.js') ?>
+
+    <!-- meu script -->
+    <?= script_tag('assets/js/cep.js') ?>
+
+
+</body>
+
 </html>
