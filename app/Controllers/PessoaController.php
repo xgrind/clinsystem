@@ -3,23 +3,36 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Entities\MedicoEntity;
+use App\Entities\MedicoEspecialidadeEntity;
 use App\Entities\PessoaEntity;
+use App\Models\ConvenioModel;
+use App\Models\EspecialidadeModel;
+use App\Models\MedicoConvenioModel;
+use App\Models\MedicoEspecialidadeModel;
+use App\Models\MedicoModel;
 use App\Models\PessoaModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class PessoaController extends BaseController
 {
     protected $pessoaModel;
+    protected $medicoModel;
+    protected $medicoEspecialidadeModel;
+    protected $medicoConvenioModel;
 
     public function __construct()
     {
+        helper('funcoes');
+
         $this->pessoaModel = new PessoaModel();
+        $this->medicoModel = new MedicoModel();
+        $this->medicoEspecialidadeModel = new MedicoEspecialidadeModel();
+        $this->medicoConvenioModel = new MedicoConvenioModel();
     }
     
     public function index()
-    {
-        helper('funcoes');
-
+    {        
         $pessoas = $this->pessoaModel->orderBy('nome')->findAll();
 
         $dados = [
@@ -30,27 +43,83 @@ class PessoaController extends BaseController
         return view('paginas/usuario/index', $dados);
     }
 
-    public function novo()
-    {
-        helper('funcoes');
+    // public function novo($tipo = null)
+    // {                        
+    //     $especialidadeModel = new EspecialidadeModel();
+    //     $convenioModel = new ConvenioModel();
+
+    //     $dados = [
+    //         'titulo' => 'Cadastro de Usuário',
+    //         'pessoa' => new PessoaEntity(),
+    //         'erros' => [],
+    //         'estados' => getEstados(),
+    //         'tipo' => $tipo,
+    //         'especialidades' => $especialidadeModel->orderBy('nome')->findAll(),
+    //         'convenios' => $convenioModel->orderBy('nome')->findAll(),
+    //     ];
+
+    //     if ($this->request->is('post')) {
+    //         $pessoa = new PessoaEntity($this->request->getPost());            
+
+    //         if (! is_null($pessoa->senha)) {
+    //             $pessoa->dt_senha = date('Y-m-d');
+    //         }           
+
+    //         $foto = $this->request->getFile('foto');            
+            
+    //         if ($foto->isValid()) {
+              
+    //             if (! $this->validate($this->getRegras())) {
+    //                 $dados['erros'] = $this->validator->getErrors();
+    //                 $dados['pessoa'] = $pessoa;
+
+    //                 return view('paginas/usuario/novo', $dados);
+    //             }
+
+    //             if (! $foto->hasMoved()) {
+    //                 $novoNome = $foto->getRandomName();
+    //                 $foto->move(ROOTPATH . 'public/uploads', $novoNome);
+    //                 $pessoa->foto = $novoNome;
+    //             }                          
+    //         }            
+
+    //         if ($this->pessoaModel->save($pessoa)) {
+    //             return redirect('usuarios')->with('sucesso', 'Usuário cadastrado com sucesso!');
+    //         }
+
+    //         $dados['erros'] = $this->pessoaModel->errors();
+    //         $dados['pessoa'] = $pessoa;
+    //     }
+
+    //     return view('paginas/usuario/novo', $dados);
+    // }
+
+    public function novo($tipo = null)
+    {                        
+        $especialidadeModel = new EspecialidadeModel();
+        $convenioModel = new ConvenioModel();
 
         $dados = [
             'titulo' => 'Cadastro de Usuário',
             'pessoa' => new PessoaEntity(),
             'erros' => [],
             'estados' => getEstados(),
+            'tipo' => $tipo,
+            'especialidades' => $especialidadeModel->orderBy('nome')->findAll(),
+            'convenios' => $convenioModel->orderBy('nome')->findAll(),
+            'medico' => new MedicoEntity(),            
         ];
 
         if ($this->request->is('post')) {
-            $pessoa = new PessoaEntity($this->request->getPost());
+            $pessoa = new PessoaEntity($this->request->getPost());            
 
             if (! is_null($pessoa->senha)) {
                 $pessoa->dt_senha = date('Y-m-d');
-            }
+            }           
 
-            $foto = $this->request->getFile('foto');
-
-            if ($foto) {
+            $foto = $this->request->getFile('foto');            
+            
+            if ($foto->isValid()) {
               
                 if (! $this->validate($this->getRegras())) {
                     $dados['erros'] = $this->validator->getErrors();
@@ -64,10 +133,43 @@ class PessoaController extends BaseController
                     $foto->move(ROOTPATH . 'public/uploads', $novoNome);
                     $pessoa->foto = $novoNome;
                 }                          
-            }
+            }            
 
-            if ($this->pessoaModel->save($pessoa)) {
-                return redirect('usuarios')->with('sucesso', 'Usuário cadastrado com sucesso!');
+            if ($this->pessoaModel->save($pessoa)) {                              
+
+                if ($tipo === 'med') {
+                    $medico = new MedicoEntity($this->request->getPost());
+                    $medico->pessoa_id = $this->pessoaModel->getInsertID();                                        
+
+                    if ($this->medicoModel->save($medico)) {
+                        
+                        $medicoEspecialidades = $this->request->getVar('especialidade_id[]');                        
+                        
+                        foreach ($medicoEspecialidades as $especialidade_id) {
+                            $this->medicoEspecialidadeModel->insert([
+                                'medico_id' => $this->medicoModel->getInsertID(),
+                                'especialidade_id' => $especialidade_id
+                            ]);                           
+                        }     
+                        
+                        $medicoConvenios = $this->request->getVar('convenio_id[]');
+
+                        foreach ($medicoConvenios as $convenio_id) {
+                            $this->medicoConvenioModel->insert([
+                                'medico_id' => $this->medicoModel->getInsertID(),
+                                'convenio_id' => $convenio_id,
+                            ]);
+                        }
+
+                        return redirect('usuarios')->with('sucesso', 'Usuário cadastrado com sucesso');
+                    }
+
+                    $dados['medico'] = $medico;
+                    $dados['pessoa'] = $pessoa;
+                    $dados['erros'] = $this->medicoModel->errors();                    
+                }
+
+                return redirect('usuarios')->with('sucesso', 'Usuário cadastrado com sucesso!');                
             }
 
             $dados['erros'] = $this->pessoaModel->errors();
@@ -78,10 +180,8 @@ class PessoaController extends BaseController
     }
 
     public function editar(int $id)
-    {
-        helper('funcoes');
-        
-        $pessoa = $this->pessoaModel->find($id);
+    {               
+        $pessoa = $this->pessoaModel->find($id);        
 
         if (is_null($pessoa)) {
             throw PageNotFoundException::forPageNotFound('Usuário não encontrado.');
