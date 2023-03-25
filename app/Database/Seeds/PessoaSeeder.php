@@ -19,7 +19,7 @@ class PessoaSeeder extends Seeder
             'numero' => 190,
             'bairro' => 'Jardim Paraíba',
             'cidade' => 'Aparecida',
-            'estado' => 'sp',
+            'estado' => 'SP',
             'cep' => '12.575-178',
             'email' => 'michaelfm21@gmail.com',
             'senha' => password_hash('12345', PASSWORD_DEFAULT),
