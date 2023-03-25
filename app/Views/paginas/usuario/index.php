@@ -5,22 +5,36 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Lista de Usuários</h1>          
+            <h1 class="page-header">Lista de Usuários</h1>
 
             <?= get_alert() ?>
 
             <p>
                 <?= anchor('usuario', 'Novo', ['class' => 'btn btn-primary']) ?>
             </p>
-            
+            <p>
+                <?= form_dropdown([
+                    'name' => 'tipo',
+                    'id' => 'tipo',
+                    'class' => 'form-control',
+                    'onchange' => 'filtraUsuarios()'
+                ], [
+                    '' => 'Todos',
+                    'adm' => 'Administradores',
+                    'med' => 'Médicos',
+                    'sec' => 'Secretários',
+                    'pac' => 'Pacientes'
+                ], $tipo) ?>
+            </p>
+
         </div>
-        <!-- /.col-lg-12 -->        
+        <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
-                        
-            <div class="panel panel-default">                
+
+            <div class="panel panel-default">
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="dataTable_wrapper">
@@ -28,7 +42,7 @@
                             <thead>
                                 <tr>
                                     <th>Nome</th>
-                                    <th>CPF</th>                                    
+                                    <th>CPF</th>
                                     <th>R.G.</th>
                                     <th>Sexo</th>
                                     <th>Tipo</th>
@@ -38,7 +52,7 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($pessoas as $pessoa) : ?>
-                                    <tr>                                        
+                                    <tr>
                                         <td><?= $pessoa->nome ?></td>
                                         <td><?= $pessoa->cpf ?></td>
                                         <td><?= $pessoa->rg ?></td>
@@ -61,8 +75,8 @@
                                             ]) ?>
                                         </td>
                                     </tr>
-                                <?php endforeach ?>                               
-                               
+                                <?php endforeach ?>
+
                             </tbody>
                         </table>
                     </div>
@@ -73,11 +87,20 @@
             <!-- /.panel -->
         </div>
         <!-- /.col-lg-6 -->
-      
+
     </div>
     <!-- /.row -->
-    
+
 </div>
 <!-- /#page-wrapper -->
+
+<script>
+    const TIPO = document.getElementById('tipo');
+    let url = '<?= site_url('usuarios') ?>'
+
+    function filtraUsuarios() {
+        window.location  = (TIPO.value) ? url + '/' + TIPO.value : url;        
+    }
+</script>
 
 <?= $this->endSection() ?>

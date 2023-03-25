@@ -81,6 +81,7 @@ $routes->match(['post', 'get'], 'login', [LoginController::class, 'entrar']);
 // Usuário
 $routes->group('usuarios', function($routes) {
     $routes->get('/', [PessoaController::class, 'index']);
+    $routes->get('(:segment)', [PessoaController::class, 'index']);
 });
 
 // $routes->addRedirect('usuario', 'usuario/pac');

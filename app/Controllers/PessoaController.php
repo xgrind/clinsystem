@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Entities\MedicoEntity;
-use App\Entities\MedicoEspecialidadeEntity;
 use App\Entities\PessoaEntity;
 use App\Models\ConvenioModel;
 use App\Models\EspecialidadeModel;
@@ -31,13 +30,19 @@ class PessoaController extends BaseController
         $this->medicoConvenioModel = new MedicoConvenioModel();
     }
     
-    public function index()
-    {        
-        $pessoas = $this->pessoaModel->orderBy('nome')->findAll();
+    public function index(string $tipo = null)
+    {      
+        if (is_null($tipo)) {
+            $pessoas = $this->pessoaModel->orderBy('nome')->findAll();
+        } else {
+            $pessoas = $this->pessoaModel->where('tipo', $tipo)->orderBy('nome')->findAll();
+        }
+        // $pessoas = $this->pessoaModel->where('tipo', $tipo)->orderBy('nome')->findAll();
 
         $dados = [
             'titulo' => 'Lista de Usuários',
-            'pessoas' => $pessoas
+            'pessoas' => $pessoas,
+            'tipo' => $tipo
         ];
 
         return view('paginas/usuario/index', $dados);
