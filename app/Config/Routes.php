@@ -77,6 +77,7 @@ $routes->group('dica', function($routes) {
 
 // Login
 $routes->match(['post', 'get'], 'login', [LoginController::class, 'entrar']);
+$routes->get('logout', [LoginController::class, 'sair']);
 
 // Usuário
 $routes->group('usuarios', function($routes) {

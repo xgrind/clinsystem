@@ -57,4 +57,12 @@ class LoginController extends BaseController
 
         return view('paginas/login/entrar', $dados);
     }
+
+    public function sair()
+    {
+        session()->destroy();
+        session()->set(['logado' => false]);
+
+        return redirect()->to(site_url());
+    }
 }
