@@ -5,9 +5,13 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Lista de Usuários</h1>
+            <h1 class="page-header">Lista de Usuários</h1>          
 
             <?= get_alert() ?>
+
+            <p>
+                <?= anchor('usuario', 'Novo', ['class' => 'btn btn-primary']) ?>
+            </p>
             
         </div>
         <!-- /.col-lg-12 -->        

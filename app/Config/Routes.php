@@ -3,8 +3,13 @@
 namespace Config;
 
 use App\Controllers\ConvenioController;
+use App\Controllers\DashboardController;
 use App\Controllers\DicaController;
 use App\Controllers\EspecialidadeController;
+use App\Controllers\LoginController;
+use App\Controllers\MedicoController;
+use App\Controllers\PessoaContatoController;
+use App\Controllers\PessoaController;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
@@ -15,7 +20,7 @@ $routes = Services::routes();
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Home');
+$routes->setDefaultController('DashboardController');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -33,7 +38,7 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/', [DashboardController::class, 'index']);
 
 
 // Convênio
@@ -69,6 +74,36 @@ $routes->group('dica', function($routes) {
     $routes->get('(:num)/excluir', [DicaController::class, 'excluir']);
     $routes->get('(:num)', [DicaController::class, 'visualizar']);
 });
+
+// Login
+$routes->match(['post', 'get'], 'login', [LoginController::class, 'entrar']);
+
+// Usuário
+$routes->group('usuarios', function($routes) {
+    $routes->get('/', [PessoaController::class, 'index']);
+});
+
+// $routes->addRedirect('usuario', 'usuario/pac');
+
+$routes->group('usuario', function($routes) {
+    // $routes->match(['post', 'get'], '/', [PessoaController::class, 'novo']);
+    $routes->get('/', [PessoaController::class, 'novo']);
+    $routes->match(['post', 'get'], '(:segment)', [PessoaController::class, 'novo']);    
+    $routes->match(['post', 'get'], '(:num)/editar', [PessoaController::class, 'editar']);
+    $routes->get('(:num)', [PessoaController::class, 'visualizar']);
+    $routes->get('(:num)/excluir', [PessoaController::class, 'excluir']);
+    $routes->get('(:num)/contatos', [PessoaContatoController::class, 'index']);
+    $routes->match(['post', 'get'], '(:num)/contato', [PessoaContatoController::class, 'novo']);
+    $routes->match(['post', 'get'], '(:num)/contato/(:num)/editar', [PessoaContatoController::class, 'editar']);
+    $routes->get('(:num)/contato/(:num)/excluir', [PessoaContatoController::class, 'excluir']);
+});
+
+// $routes->group('medicos', function($routes) {
+//     $routes->get('/', [MedicoController::class, 'index']);
+// });
+// $routes->group('medico', function($routes) {
+//     $routes->match(['post', 'get'], '/', [MedicoController::class, 'novo']);
+// });
 
 /*
  * --------------------------------------------------------------------

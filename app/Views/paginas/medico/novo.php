@@ -5,7 +5,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Cadastro de Usuário</h1>            
+            <h1 class="page-header">Cadastro de Usuário</h1>
 
             <?= show_erros($erros) ?>
         </div>
@@ -19,8 +19,6 @@
             <div class="panel panel-default">
 
                 <div class="panel-body">
-
-                    <?= form_open_multipart()  ?>
 
                     <div class="row">
                         <div class="col-lg-3">
@@ -171,26 +169,18 @@
                             </div>
                         </div>
 
-                        <?php if ($tipo === 'med') : ?>
+                       
 
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <?= form_label('Conselho') ?>
-                                        <?= form_input([
-                                            'name' => 'conselho',
-                                            'id' => 'conselho',
-                                            'class' => 'form-control'
-                                        ], $medico->conselho ?? '') ?>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
                                         <?= form_label('Especialidade') ?>
-                                        <select class="select4 form-control" multiple id="especialidade" name="especialidade_id[]">
+                                        <select class="select4 form-control" multiple id="especialidade">
+                                            <option value="">-- Selecione -</option>
 
                                             <?php foreach ($especialidades as $especialidade) : ?>
-                                                <option value="<?= $especialidade->id ?>" <?= set_select('especialidade', $especialidade->id) ?>>
+                                                <option value="<?= $especialidade->id ?>" 
+                                                    <?= set_select('especialidade', $especialidade->id) ?>>
                                                     <?= $especialidade->nome ?>
                                                 </option>
                                             <?php endforeach ?>
@@ -204,10 +194,12 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <?= form_label('Convênio') ?>
-                                        <select class="select4 form-control" multiple id="convenio" name="convenio_id[]">
+                                        <select class="select4 form-control" multiple id="convenio">
+                                            <option value="">-- Selecione -</option>
 
                                             <?php foreach ($convenios as $convenio) : ?>
-                                                <option value="<?= $convenio->id ?>" <?= set_select('convenio', $convenio->id) ?>>
+                                                <option value="<?= $convenio->id ?>" 
+                                                    <?= set_select('convenio', $convenio->id) ?>>
                                                     <?= $convenio->nome ?>
                                                 </option>
                                             <?php endforeach ?>
@@ -217,8 +209,6 @@
                             </div>
 
                         <?php endif ?>
-
-
 
                         <div class="row">
                             <div class="col-lg-8">
@@ -266,14 +256,15 @@
                             </div>
                         </div>
 
+
                         <div class="text-center">
                             <?= form_submit(['class' => 'btn btn-primary'], 'Cadastrar') ?>
                             <?= form_reset(['class' => 'btn btn-primary'], 'Limpar') ?>
                         </div>
 
-                    <?php endif ?>
-
+                  
                     <?= form_close() ?>
+
 
                     <!-- /.row (nested) -->
                 </div>
@@ -294,18 +285,17 @@
     function openURL() {
         window.location = URL + TIPO.value;
     }
-
-    if (TIPO.value === 'med') {
-        let dlb4 = new DualListbox('#especialidade', {
-            showSortButtons: true,
-        });
-
-        let dlb5 = new DualListbox('#convenio', {
-            showSortButtons: true,
-        });
-    }
 </script>
 
+<script>
+    let dlb4 = new DualListbox('#especialidade', {
+        showSortButtons: true,
+    });
+
+    let dlb5 = new DualListbox('#convenio', {
+        showSortButtons: true,
+    });
+</script>
 
 
 <?= $this->endSection() ?>
