@@ -85,6 +85,8 @@ $routes->group('usuarios', function($routes) {
     $routes->get('(:segment)', [PessoaController::class, 'index']);
 });
 
+
+
 // $routes->addRedirect('usuario', 'usuario/pac');
 
 $routes->group('usuario', function($routes) {
@@ -100,6 +102,11 @@ $routes->group('usuario', function($routes) {
     $routes->get('(:num)/contato/(:num)/excluir', [PessoaContatoController::class, 'excluir']);
 });
 
+// Perfil
+$routes->get('perfil', [PessoaController::class, 'perfil']);
+
+// Conta
+$routes->get('conta', [PessoaController::class, 'conta']);
 // $routes->group('medicos', function($routes) {
 //     $routes->get('/', [MedicoController::class, 'index']);
 // });

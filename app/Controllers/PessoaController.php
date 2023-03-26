@@ -10,6 +10,7 @@ use App\Models\EspecialidadeModel;
 use App\Models\MedicoConvenioModel;
 use App\Models\MedicoEspecialidadeModel;
 use App\Models\MedicoModel;
+use App\Models\PessoaContatoModel;
 use App\Models\PessoaModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
@@ -28,6 +29,8 @@ class PessoaController extends BaseController
         $this->medicoModel = new MedicoModel();
         $this->medicoEspecialidadeModel = new MedicoEspecialidadeModel();
         $this->medicoConvenioModel = new MedicoConvenioModel();
+        
+        
     }
     
     public function index(string $tipo = null)
@@ -264,5 +267,33 @@ class PessoaController extends BaseController
         ];
 
         return $regras;
+    }
+
+    public function perfil()
+    {        
+        if (session()->logado) {
+            $pessoa = $this->pessoaModel->find(session()->id);
+
+            $pessoaContatoModel = new PessoaContatoModel();
+
+            $contatos = $pessoaContatoModel->where('pessoa_id', $pessoa->id)->findAll();            
+
+            $dados = [
+                'titulo' => 'Meu Perfil',
+                'pessoa' => $pessoa,
+                'contatos' => $contatos
+            ];
+
+            return view('paginas/usuario/perfil', $dados);
+        }
+    }
+
+    public function conta()
+    {
+        $dados = [
+            'titulo' => 'Alterar Conta'
+        ];
+
+        return view('paginas/usuario/conta', $dados);
     }
 }

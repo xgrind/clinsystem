@@ -78,9 +78,11 @@
                     <i class="fa fa-user fa-fw"></i> <?= session()->nome ?> <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    <li><a href="<?= site_url('perfil') ?>"><i class="fa fa-user fa-fw"></i> Meu Perfil</a>
                     </li>
-                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    <li><a href="<?= site_url("usuario/" . session()->id . "/editar") ?>"><i class="fa fa-gear fa-edit"></i> Alterar Dados</a>
+                    </li>
+                    <li><a href="<?= site_url('conta') ?>"><i class="fa fa-gear fa-key"></i> Alterar Conta</a>
                     </li>
                     <li class="divider"></li>
                     <li><a href="<?= site_url('logout') ?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a>

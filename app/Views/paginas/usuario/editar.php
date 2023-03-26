@@ -5,7 +5,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Cadastro de Usuário</h1>
+            <h1 class="page-header">Edição de Usuário</h1>
 
             <?= show_erros($erros) ?>
         </div>

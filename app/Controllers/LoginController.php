@@ -39,6 +39,7 @@ class LoginController extends BaseController
                     $sessao = [
                         'tipo' => $pessoa->tipo,
                         'nome' => $pessoa->nome, 
+                        'id' => $pessoa->id,
                         'logado' => true
                     ];
 
@@ -47,12 +48,11 @@ class LoginController extends BaseController
                     
 
                     return redirect()->to(site_url());
-                }
-
-                $dados['erros'] = ['Usuário e/ou senha inválida.'];
+                }               
             }                      
 
-            $dados['erros'] = ['Usuário e/ou senha inválida.'];
+            // $dados['erros'] = ['Usuário e/ou senha inválida.'];
+            return redirect('login')->with('erro', 'Usuário e/ou senha inválida.');
         }
 
         return view('paginas/login/entrar', $dados);
