@@ -46,3 +46,11 @@ function getTipo($tipo)
         default: return 'Erro';
     }
 }
+
+function getSexo($sexo)
+{
+    return match($sexo) {
+        'm' => 'Masculino',
+        'f' => 'Feminino'
+    };
+}
