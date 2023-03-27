@@ -111,6 +111,9 @@ $routes->get('conta', [PessoaController::class, 'conta']);
 // Senha
 $routes->match(['post', 'get'], 'senha', [PessoaController::class, 'senha']);
 
+// E-mail
+$routes->match(['post', 'get'], 'email', [PessoaController::class, 'email']);
+
 // $routes->group('medicos', function($routes) {
 //     $routes->get('/', [MedicoController::class, 'index']);
 // });

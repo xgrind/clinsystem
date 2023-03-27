@@ -330,8 +330,42 @@ class PessoaController extends BaseController
             }
         }
 
-        return view('paginas/usuario/senha', $dados);
+        return view('paginas/usuario/senha', $dados);        
+    }
 
-        
+    public function email()
+    {
+        $dados = [
+            'titulo' => 'Redefinir E-mail',
+            'erros' => [],
+        ];
+
+        if ($this->request->is('post')) {
+            if (session()->logado) {
+                $pessoa = $this->pessoaModel->find(session()->id);
+
+                if (is_null($pessoa)) {
+                    throw PageNotFoundException::forPageNotFound('Usuário não encontrado.');
+                }                               
+
+                if ($this->request->getVar('atual') !== $pessoa->email) {
+                    return redirect('email')->with('erro', 'E-mail atual errado.');
+                }
+
+                $pessoa->email = $this->request->getVar('email');
+
+                if ($pessoa->hasChanged()) {
+
+                    if ($this->pessoaModel->save($pessoa)) {
+                        return redirect()->to(site_url())->with('sucesso', 'E-mail alterado com sucesso!');
+                    }
+
+                    $dados['erros'] = $this->pessoaModel->errors();
+                }
+                
+            }
+        }
+
+        return view('paginas/usuario/email', $dados);        
     }
 }
