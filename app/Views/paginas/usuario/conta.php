@@ -30,7 +30,9 @@
                     <div class="col-lg-4">
                         <div class="panel panel-info">
                             <div class="panel-heading">
-                                <i class="text-primary fa fa-lock"></i> Redefinir sua Senha
+                                <a href="<?= site_url('senha') ?>">
+                                    <i class="text-primary fa fa-lock"></i> Redefinir sua Senha
+                                </a>
                             </div>
                             <div class="panel-body">
                                 <p>Redefina sua senha e mantenha a segurança de sua conta.</p>

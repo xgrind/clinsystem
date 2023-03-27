@@ -296,4 +296,42 @@ class PessoaController extends BaseController
 
         return view('paginas/usuario/conta', $dados);
     }
+
+    public function senha()
+    {
+        $dados = [
+            'titulo' => 'Redefinir Senha',
+            'erros' => [],
+        ];
+
+        if ($this->request->is('post')) {
+            if (session()->logado) {
+                $pessoa = $this->pessoaModel->find(session()->id);
+
+                if (is_null($pessoa)) {
+                    throw PageNotFoundException::forPageNotFound('Usuário não encontrado.');
+                }               
+
+                if (! password_verify($this->request->getVar('atual'), $pessoa->senha)) {
+                    return redirect('senha')->with('erro', 'Senha atual errada.');
+                }
+                
+                $pessoa->fill($this->request->getPost());
+
+                if ($pessoa->hasChanged()) {
+
+                    if ($this->pessoaModel->save($pessoa)) {
+                        return redirect()->to(site_url())->with('sucesso', 'Senha alterada com sucesso!');
+                    }
+
+                    $dados['erros'] = $this->pessoaModel->errors();
+                }
+                
+            }
+        }
+
+        return view('paginas/usuario/senha', $dados);
+
+        
+    }
 }

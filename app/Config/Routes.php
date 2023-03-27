@@ -99,7 +99,7 @@ $routes->group('usuario', function($routes) {
     $routes->get('(:num)/contatos', [PessoaContatoController::class, 'index']);
     $routes->match(['post', 'get'], '(:num)/contato', [PessoaContatoController::class, 'novo']);
     $routes->match(['post', 'get'], '(:num)/contato/(:num)/editar', [PessoaContatoController::class, 'editar']);
-    $routes->get('(:num)/contato/(:num)/excluir', [PessoaContatoController::class, 'excluir']);
+    $routes->get('(:num)/contato/(:num)/excluir', [PessoaContatoController::class, 'excluir']);    
 });
 
 // Perfil
@@ -107,6 +107,10 @@ $routes->get('perfil', [PessoaController::class, 'perfil']);
 
 // Conta
 $routes->get('conta', [PessoaController::class, 'conta']);
+
+// Senha
+$routes->match(['post', 'get'], 'senha', [PessoaController::class, 'senha']);
+
 // $routes->group('medicos', function($routes) {
 //     $routes->get('/', [MedicoController::class, 'index']);
 // });
